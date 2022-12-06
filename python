@@ -1,0 +1,120 @@
+def positive(constant, variable):
+    sum = 0
+    list_const = list(constant)
+    list_var = list(variable)
+    for i in range(len(list_const)):
+        if list_const[i] == list_var[i]:
+            sum += 1
+    return sum
+
+
+def check(list_constant, i):
+    add = 0
+    for a in range(i):
+        if list_constant[i] == list_constant[a]:
+            add += 1
+    if add == 0:
+        return True
+    else:
+        return False
+
+def negative(constant, variable):
+    list_constant = list(constant)
+    list_var = list(variable)
+    sum = 0
+    for i in range(len(list_constant)):
+        if list_constant[i] == list_var[i]:
+            list_constant[i] = "*"
+            list_var[i] = "/"
+
+
+    for i in range(len(list_constant)):
+        if check(list_constant,i):
+
+            for o in range(len(list_var)):
+                if list_constant[i] == list_var[o]:
+                    sum += 1
+                    break
+    return sum
+
+
+def nnegative(constant, variable):
+    sum = 0
+    list_constant = list(constant)
+    list_var = list(variable)
+    if positive(constant, variable) == 0:
+        for i in range(len(constant)):
+            if check(guess, i):
+                for o in range(len(variable)):
+                    if constant[i] == variable[o] and list_constant[i] != list_var[i]:
+                        sum += 1
+                        break
+    return sum
+
+
+n = int(input(""))
+secret = int(input(""))
+secret_code = str(secret)
+
+guess = ""
+if n == 4:
+    guess = "1000"
+    guess_list = ["1000"]
+if n == 5:
+    guess = "10000"
+    guess_list = ["10000"]
+if n == 6:
+    guess = "100000"
+    guess_list = ["100000"]
+positive_list = []
+negative_list = []
+
+positive_list.append(positive(secret_code, guess))
+negative_list.append(negative(secret_code, guess))
+
+
+def check_positive(guess_list, positive_list, guess):
+    sum = 0
+    for c in range(len(guess_list)):
+        if positive(guess, guess_list[c]) == positive_list[c]:
+            sum += 1
+    if sum == len(guess_list):
+        return True
+    else:
+        return False
+
+
+def check_negative(guess_list, negative_list, guess):
+    sum = 0
+    for c in range(len(guess_list)):
+        if negative(guess, guess_list[c]) == negative_list[c]:
+            sum += 1
+    if sum == len(guess_list):
+        return True
+    else:
+        return False
+
+
+for u in range(secret):
+    int_guess = int(guess)
+    int_guess += 1
+    guess = str(int_guess)
+
+    if check_positive(guess_list, positive_list, guess) and check_negative(guess_list, negative_list, guess):
+        guess_list.append(guess)
+        positive_list.append(positive(secret_code, guess))
+        negative_list.append(negative(secret_code, guess))
+
+    if int_guess == secret:
+        break
+liste = []
+for i in range(len(guess_list)):
+    a = int(guess_list[i])
+    liste.append(a)
+
+for i in range(len(guess_list)):
+    print(guess_list[i])
+print("Found the secret code", secret)
+print("Guess list: ", liste)
+print("# of digits in correct position:   ", positive_list)
+print("# of digits in incorrect position: ", negative_list)
